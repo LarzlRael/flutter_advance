@@ -54,7 +54,7 @@ class __FormState extends State<_Form> {
 
     return Container(
       margin: EdgeInsets.only(top: 40),
-      padding: EdgeInsets.symmetric(horizontal: 50),
+      padding: EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         children: [
           CustomInput(
@@ -65,7 +65,7 @@ class __FormState extends State<_Form> {
           ),
           CustomInput(
             icon: Icons.mail_outline,
-            placeholder: 'Nombre',
+            placeholder: 'Email',
             keyboardType: TextInputType.emailAddress,
             textController: emailCtrl,
           ),
@@ -77,7 +77,7 @@ class __FormState extends State<_Form> {
             isPassword: true,
           ),
           ButtonBlue(
-            title: 'Crar cuenta',
+            title: 'Crear cuenta',
             onPressed: authService.autenticando
                 ? null
                 : () async {

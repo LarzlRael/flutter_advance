@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomInput extends StatelessWidget {
+class CustomInput extends StatefulWidget {
   final IconData icon;
   final String placeholder;
   final TextEditingController textController;
@@ -15,6 +15,12 @@ class CustomInput extends StatelessWidget {
     this.isPassword = false,
   });
 
+  @override
+  _CustomInputState createState() => _CustomInputState();
+}
+
+class _CustomInputState extends State<CustomInput> {
+  bool showPassword = true;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,16 +38,28 @@ class CustomInput extends StatelessWidget {
         ],
       ),
       child: TextField(
-        controller: this.textController,
-        obscureText: this.isPassword,
-        keyboardType: this.keyboardType,
+        controller: this.widget.textController,
+        obscureText: this.widget.isPassword ? showPassword : false,
+        keyboardType: this.widget.keyboardType,
         decoration: InputDecoration(
           border: InputBorder.none,
           prefixIcon: Icon(
-            this.icon,
+            this.widget.icon,
             color: Colors.blue,
           ),
-          hintText: this.placeholder,
+          suffixIcon: this.widget.isPassword
+              ? IconButton(
+                  icon: showPassword
+                      ? Icon(Icons.password)
+                      : Icon(Icons.remove_red_eye_outlined),
+                  onPressed: () {
+                    setState(() {
+                      showPassword = !showPassword;
+                    });
+                  },
+                )
+              : null,
+          hintText: this.widget.placeholder,
         ),
       ),
     );

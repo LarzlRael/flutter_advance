@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Center(child: Logo(title: 'Messenger')),
+                Center(child: Logo(title: 'Just Chat')),
                 _Form(),
                 Labels(
                     title: 'Crear una cuenta ahora',
@@ -52,7 +52,7 @@ class __FormState extends State<_Form> {
 
     return Container(
       margin: EdgeInsets.only(top: 40),
-      padding: EdgeInsets.symmetric(horizontal: 50),
+      padding: EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         children: [
           CustomInput(
@@ -69,7 +69,7 @@ class __FormState extends State<_Form> {
             isPassword: true,
           ),
           ButtonBlue(
-            title: 'Ingrese',
+            title: 'Ingresar',
             onPressed: authService.autenticando
                 ? null
                 : () async {
