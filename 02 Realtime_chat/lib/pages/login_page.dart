@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:realtime_chat/helpers/mostrar_alerta.dart';
+import 'package:realtime_chat/services/auth_service.dart';
 import 'package:realtime_chat/widget/button_blue.dart';
 import 'package:realtime_chat/widget/custom_input.dart';
 import 'package:realtime_chat/widget/labels.dart';
 import 'package:realtime_chat/widget/logo.dart';
 
-class RegisterPage extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,13 +20,12 @@ class RegisterPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Center(child: Logo(title: 'Registro')),
+                Center(child: Logo(title: 'Messenser')),
                 _Form(),
                 Labels(
-                  title: 'Ingrese ahora!',
-                  subTitle: '¿Ya tienes una cuenta?',
-                  ruta: 'login',
-                ),
+                    title: 'Crear una cuenta ahora',
+                    subTitle: '¿No tienes cuenta?',
+                    ruta: 'register'),
               ],
             ),
           ),
@@ -41,24 +43,19 @@ class _Form extends StatefulWidget {
 class __FormState extends State<_Form> {
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
-  final nameCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
       child: Column(
         children: [
           CustomInput(
-            icon: Icons.perm_identity,
-            placeholder: 'Nombre',
-            keyboardType: TextInputType.text,
-            textController: nameCtrl,
-          ),
-          CustomInput(
             icon: Icons.mail_outline,
-            placeholder: 'Nombre',
+            placeholder: 'Correo',
             keyboardType: TextInputType.emailAddress,
             textController: emailCtrl,
           ),
@@ -71,10 +68,24 @@ class __FormState extends State<_Form> {
           ),
           ButtonBlue(
             title: 'Ingrese',
-            onPressed: () {
-              print(emailCtrl.text);
-              print(passCtrl.text);
-            },
+            onPressed: authService.autenticando
+                ? null
+                : () async {
+                    FocusScope.of(context).unfocus();
+                    print(emailCtrl.text);
+                    print(passCtrl.text);
+
+                    final loginOk = await authService.login(
+                        emailCtrl.text.trim(), passCtrl.text.trim());
+                    if (loginOk) {
+                      //TODO navegar a otra pantalla
+                      Navigator.pushReplacementNamed(context, 'usuarios');
+                    } else {
+                      //crear alerta
+                      mostrarAlerta(context, 'Login incorrecto',
+                          'Revise sus credenciales nuevamente');
+                    }
+                  },
           ),
         ],
       ),
