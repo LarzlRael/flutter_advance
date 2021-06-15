@@ -8,7 +8,7 @@ mostrarAlerta(BuildContext context, String titulo, String subtitulo) {
     return showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title : Text(titulo),
+        title: Text(titulo),
         content: Text(subtitulo),
         actions: [
           MaterialButton(
@@ -21,11 +21,53 @@ mostrarAlerta(BuildContext context, String titulo, String subtitulo) {
       ),
     );
   }
+
   showCupertinoDialog(
     context: context,
     builder: (_) => CupertinoAlertDialog(
       title: Text(titulo),
       content: Text(subtitulo),
+      actions: [
+        CupertinoDialogAction(
+          child: Text('ok'),
+          isDefaultAction: true,
+          onPressed: () => Navigator.pop(context),
+        ),
+      ],
+    ),
+  );
+}
+
+mostrarAlertaCerrarSesion(BuildContext context, Function fn) {
+  if (Platform.isAndroid) {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Cerrar sesión'),
+        content: Text('¿Esta seguro de cerrar sesion?'),
+        actions: [
+          MaterialButton(
+            child: Text('Cancelar'),
+            elevation: 5,
+            textColor: Colors.blue,
+            onPressed: () => Navigator.pop(context),
+          ),
+          MaterialButton(
+            child: Text('Si'),
+            elevation: 5,
+            textColor: Colors.blue,
+            onPressed: () => fn(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  showCupertinoDialog(
+    context: context,
+    builder: (_) => CupertinoAlertDialog(
+      title: Text('xd'),
+      content: Text('xd'),
       actions: [
         CupertinoDialogAction(
           child: Text('ok'),

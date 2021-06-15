@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:realtime_chat/helpers/mostrar_alerta.dart';
 import 'package:realtime_chat/services/auth_service.dart';
+import 'package:realtime_chat/services/socker_services.dart';
 import 'package:realtime_chat/widget/button_blue.dart';
 import 'package:realtime_chat/widget/custom_input.dart';
 import 'package:realtime_chat/widget/labels.dart';
@@ -20,7 +21,7 @@ class LoginPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Center(child: Logo(title: 'Messenser')),
+                Center(child: Logo(title: 'Messenger')),
                 _Form(),
                 Labels(
                     title: 'Crear una cuenta ahora',
@@ -47,6 +48,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
+    final socketService = Provider.of<SocketService>(context, listen: false);
 
     return Container(
       margin: EdgeInsets.only(top: 40),
@@ -61,7 +63,7 @@ class __FormState extends State<_Form> {
           ),
           CustomInput(
             icon: Icons.lock_outline,
-            placeholder: 'Contrseña',
+            placeholder: 'Contraseña',
             keyboardType: TextInputType.text,
             textController: passCtrl,
             isPassword: true,
@@ -72,13 +74,13 @@ class __FormState extends State<_Form> {
                 ? null
                 : () async {
                     FocusScope.of(context).unfocus();
-                    print(emailCtrl.text);
-                    print(passCtrl.text);
+                    // print(emailCtrl.text);
+                    // print(passCtrl.text);
 
                     final loginOk = await authService.login(
                         emailCtrl.text.trim(), passCtrl.text.trim());
                     if (loginOk) {
-                      //TODO navegar a otra pantalla
+                      socketService.connect();
                       Navigator.pushReplacementNamed(context, 'usuarios');
                     } else {
                       //crear alerta

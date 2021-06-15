@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:realtime_chat/services/auth_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 enum ServerStatus {
@@ -16,32 +17,31 @@ class SocketService with ChangeNotifier {
   Function get emit => this._socket.emit;
 
   ServerStatus get serverStatus => this._serverStatus;
-  SocketService() {
-    this._initConfig();
-  }
+  // SocketService() {
+  //   this._initConfig();
+  // }
 
-  void _initConfig() {
-    print('trying conect');
-    // IO.Socket socket = IO.io('http://192.168.0.10:3000', {
-    //   'transports': ['websocket'],
-    //   'autoConnect': true,
-    // });
-
+  void connect() async {
+    final token = await AuthService.getToken();
+    // Dart client
     this._socket = IO.io(
         'http://192.168.0.10:3000',
         IO.OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
             .enableAutoConnect() // disable auto-connection
-            .setExtraHeaders({'foo': 'bar'}) // optional
+            .setExtraHeaders({
+              'foo': 'bar',
+              'x-token': token,
+            }) // optional
             .build());
 
     this._socket.on('connect', (_) {
-      print('Conectado papu');
+      print('connected socket success');
       this._serverStatus = ServerStatus.Online;
       notifyListeners();
     });
     this._socket.on('disconnect', (_) {
-      print('offline papu');
+      print('offline sockets');
       this._serverStatus = ServerStatus.Offline;
       notifyListeners();
     });
@@ -49,5 +49,9 @@ class SocketService with ChangeNotifier {
     socket.on('nuevo-mensaje', (payload) {
       print('nuevo-mensaje :$payload');
     });
+  }
+
+  void disconnect() {
+    this._socket.disconnect();
   }
 }

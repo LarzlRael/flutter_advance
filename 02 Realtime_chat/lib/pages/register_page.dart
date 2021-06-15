@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:realtime_chat/helpers/mostrar_alerta.dart';
 import 'package:realtime_chat/services/auth_service.dart';
+import 'package:realtime_chat/services/socker_services.dart';
 import 'package:realtime_chat/widget/button_blue.dart';
 import 'package:realtime_chat/widget/custom_input.dart';
 import 'package:realtime_chat/widget/labels.dart';
@@ -49,6 +50,8 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -68,7 +71,7 @@ class __FormState extends State<_Form> {
           ),
           CustomInput(
             icon: Icons.lock_outline,
-            placeholder: 'Contrseña',
+            placeholder: 'Contraseña',
             keyboardType: TextInputType.text,
             textController: passCtrl,
             isPassword: true,
@@ -85,6 +88,7 @@ class __FormState extends State<_Form> {
                     );
 
                     if (registroOk == true) {
+                      socketService.connect();
                       Navigator.pushReplacementNamed(context, 'usuarios');
                     } else {
                       mostrarAlerta(context, 'Registro incorrecto', registroOk);

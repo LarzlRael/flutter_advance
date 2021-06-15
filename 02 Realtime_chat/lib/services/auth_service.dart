@@ -20,10 +20,10 @@ class AuthService with ChangeNotifier {
 
   // token static getters
 
-  static Future<String?> getToken() async {
+  static Future<String> getToken() async {
     final _storage = FlutterSecureStorage();
     final token = await _storage.read(key: 'token');
-    return token;
+    return token != null ? token : '';
   }
 
   static Future<void> deleteToken() async {
@@ -42,7 +42,6 @@ class AuthService with ChangeNotifier {
       headers: {'Content-type': 'application/json'},
     );
 
-    print(resp.body);
     this.autenticando = false;
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
@@ -69,7 +68,6 @@ class AuthService with ChangeNotifier {
       headers: {'Content-type': 'application/json'},
     );
 
-    print(resp.body);
     this.autenticando = false;
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);
@@ -91,7 +89,6 @@ class AuthService with ChangeNotifier {
         'x-token': token != null ? token : '',
       },
     );
-    print(resp.body);
 
     if (resp.statusCode == 200) {
       final loginResponse = loginResponseFromJson(resp.body);

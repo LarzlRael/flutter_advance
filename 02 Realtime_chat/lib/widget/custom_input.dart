@@ -33,7 +33,7 @@ class CustomInput extends StatelessWidget {
       ),
       child: TextField(
         controller: this.textController,
-        autocorrect: this.isPassword,
+        obscureText: this.isPassword,
         keyboardType: this.keyboardType,
         decoration: InputDecoration(
           border: InputBorder.none,
