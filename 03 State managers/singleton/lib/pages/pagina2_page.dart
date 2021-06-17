@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:singleton/models/usuario.dart';
+import 'package:singleton/services/usuario_service.dart';
 
 class Pagina2Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final usuarioService = Provider.of<UsuarioService>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pagina 2'),
+        title: usuarioService.existeUsuario
+            ? Text('Nombre ${usuarioService.usuario.nombre}')
+            : Text('Pagina 2'),
       ),
       body: Center(
         child: Column(
@@ -17,7 +23,18 @@ class Pagina2Page extends StatelessWidget {
                 'Establecer Usuario',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {},
+              onPressed: () {
+                final newUser = Usuario(
+                  nombre: 'Larzdosan',
+                  edad: 20,
+                  profesiones: [
+                    'Fullstack developer',
+                    'video jugador experto :F'
+                  ],
+                  show: true,
+                );
+                usuarioService.setUsuario = newUser;
+              },
             ),
             MaterialButton(
               color: Colors.blue,
@@ -25,7 +42,9 @@ class Pagina2Page extends StatelessWidget {
                 'Cambiar Edad',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {},
+              onPressed: () {
+                usuarioService.cambiarEdad(45);
+              },
             ),
             MaterialButton(
               color: Colors.blue,
@@ -33,7 +52,7 @@ class Pagina2Page extends StatelessWidget {
                 'Añadir profesion',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {},
+              onPressed: usuarioService.agregarProfesion,
             ),
           ],
         ),
