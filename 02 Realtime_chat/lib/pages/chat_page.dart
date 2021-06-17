@@ -37,15 +37,19 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
   void _cargarHistorial(String usuarioId) async {
     List<Mensaje> chat = await this.chatservice.getChat(usuarioId);
-    // print(chat);
 
     final history = chat.map((m) => ChatMessage(
           text: m.mensaje,
           uid: m.de,
+          
+          createdAt:
+              "${m.createdAt.hour-4}:${m.createdAt.minute.toString().length == 1 ? '0${m.createdAt.minute}' : '${m.createdAt.minute}'} ",
+          
           animationController: AnimationController(
               vsync: this, duration: Duration(milliseconds: 0))
             ..forward(),
         ));
+
     setState(() {
       _messages.insertAll(0, history);
     });
@@ -189,6 +193,8 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     final newMessage = new ChatMessage(
       uid: authService.usuario.uid,
       text: text,
+      createdAt:
+          "${(DateTime.now().hour-4)}:${DateTime.now().minute.toString().length == 1 ? '0${DateTime.now().minute}' : '${DateTime.now().minute}'} ",
       animationController: AnimationController(
           vsync: this, duration: Duration(milliseconds: 200)),
     );

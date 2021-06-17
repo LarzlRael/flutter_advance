@@ -38,7 +38,7 @@ mostrarAlerta(BuildContext context, String titulo, String subtitulo) {
   );
 }
 
-mostrarAlertaCerrarSesion(BuildContext context, Function fn) {
+mostrarAlertaCerrarSesion(BuildContext context, VoidCallback onPressed) {
   if (Platform.isAndroid) {
     return showDialog(
       context: context,
@@ -56,7 +56,7 @@ mostrarAlertaCerrarSesion(BuildContext context, Function fn) {
             child: Text('Si'),
             elevation: 5,
             textColor: Colors.blue,
-            onPressed: () => fn(),
+            onPressed: onPressed,
           ),
         ],
       ),

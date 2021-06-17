@@ -63,10 +63,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
         leading: IconButton(
           icon: Icon(Icons.exit_to_app, color: Colors.black54),
           onPressed: () {
-            // mostrarAlertaCerrarSesion(context, logout);
-            socketService.disconnect();
-            AuthService.deleteToken();
-            Navigator.pushReplacementNamed(context, 'login');
+            mostrarAlertaCerrarSesion(context, logout);
           },
         ),
         actions: [
@@ -91,7 +88,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
   }
 
   void logout() {
-    final socketService = Provider.of<SocketService>(context);
+    final socketService = Provider.of<SocketService>(context, listen: false);
 
     socketService.disconnect();
     AuthService.deleteToken();
