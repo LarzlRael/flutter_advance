@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:singleton/block/usuario/usuario_bloc.dart';
 import 'package:singleton/models/usuario.dart';
 import 'package:singleton/services/usuario_service.dart';
 
 class Pagina1Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final usuarioService = Provider.of<UsuarioService>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Pagina 1'),
         actions: [
           IconButton(
-            icon: Icon(Icons.exit_to_app),
+            icon: Icon(Icons.delete),
             onPressed: () {
-              usuarioService.removeUsuario();
+              BlocProvider.of<UsuarioBloc>(context).add(BorrarUsuario());
             },
           )
         ],
       ),
-      body: usuarioService.existeUsuario
-          ? InformacionUsuario(
-              usuario: usuarioService.getUsuario,
-            )
-          : Center(
+      body: BlocBuilder<UsuarioBloc, UsuarioState>(
+        builder: (_, state) {
+          if (state.existeUsuario) {
+            return InformacionUsuario(usuario: state.usuario!);
+          } else {
+            return Center(
               child: Text('No hay usuario seleccionado'),
-            ),
+            );
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.accessibility_new),
         onPressed: () {
@@ -40,9 +44,8 @@ class Pagina1Page extends StatelessWidget {
 class InformacionUsuario extends StatelessWidget {
   final Usuario usuario;
   const InformacionUsuario({
-    Key? key,
     required this.usuario,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -14,21 +14,21 @@ class UsuarioService with ChangeNotifier {
     notifyListeners();
   }
 
-  void cambiarEdad(int edad) {
-    this.usuario.edad = edad;
-    notifyListeners();
-  }
+  // void cambiarEdad(int edad) {
+  //   this.usuario.edad = edad;
+  //   notifyListeners();
+  // }
 
-  void removeUsuario() {
-    this.usuario.show = false;
-    notifyListeners();
-  }
+  // void removeUsuario() {
+  //   this.usuario.show = false;
+  //   notifyListeners();
+  // }
 
-  void agregarProfesion() {
-    this
-        .usuario
-        .profesiones
-        .add('profesion ${this.usuario.profesiones.length + 1}');
-    notifyListeners();
-  }
+  // void agregarProfesion() {
+  //   this
+  //       .usuario
+  //       .profesiones
+  //       .add('profesion ${this.usuario.profesiones.length + 1}');
+  //   notifyListeners();
+  // }
 }
