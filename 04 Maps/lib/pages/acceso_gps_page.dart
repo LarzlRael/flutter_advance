@@ -42,7 +42,6 @@ class _AccesoGpsPageState extends State<AccesoGpsPage>
             Text('Es necesario el GPS para usar esta app'),
             MaterialButton(
               onPressed: () async {
-                //TODO verificar permisos
                 final status = await Permission.location.request();
                 print(status);
                 this.accesoGPS(status);

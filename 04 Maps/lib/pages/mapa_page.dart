@@ -33,6 +33,8 @@ class _MapaPageState extends State<MapaPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           BtnUbicacion(),
+          BtnSeguirUbicacion(),
+          BtnMiRuta(),
         ],
       ),
     );
@@ -42,6 +44,8 @@ class _MapaPageState extends State<MapaPage> {
     if (!state.existeUbicacion!) return Text('Ubicando');
 
     final mapaBloc = BlocProvider.of<MapaBloc>(context);
+
+    mapaBloc.add(OnNuevaUbicacion(state.ubicacion!));
     // return Center(
     //     child: Text(
     //         '${state.ubicacion!.latitude}, ${state.ubicacion!.longitude}'));
@@ -51,10 +55,14 @@ class _MapaPageState extends State<MapaPage> {
       compassEnabled: true,
       // mapType: MapType.normal,
       // myLocationButtonEnabled: true,
-      // myLocationEnabled: true,
+      myLocationEnabled: true,
       zoomControlsEnabled: false,
       onMapCreated: (GoogleMapController controller) =>
           mapaBloc.initMapa(controller),
+      polylines: mapaBloc.state.polylines.values.toSet(),
+      onCameraMove: (cameraPosition) {
+        mapaBloc.add(OnMovioMapa(cameraPosition.target));
+      },
     );
   }
 }

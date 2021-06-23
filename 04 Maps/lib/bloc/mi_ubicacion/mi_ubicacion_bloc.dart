@@ -20,7 +20,7 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
         .listen((Geolocator.Position position) {
       print('posiction actual : $position');
       final newLocation = new LatLng(position.latitude, position.longitude);
-      add(onUbicacionCambio(newLocation));
+      add(OnUbicacionCambio(newLocation));
     });
   }
 
@@ -30,7 +30,7 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
 
   @override
   Stream<MiUbicacionState> mapEventToState(MiUbicacionEvent event) async* {
-    if (event is onUbicacionCambio) {
+    if (event is OnUbicacionCambio) {
       yield state.copyWith(
         existeUbicacion: true,
         ubicacion: event.ubicacion,
