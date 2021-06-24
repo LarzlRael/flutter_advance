@@ -3,6 +3,18 @@ part of 'widgets.dart';
 class Searchbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<BusquedaBloc, BusquedaState>(builder: (context, state) {
+      if (state.seleccionManual) {
+        return Container();
+      } else {
+        return FadeInDown(
+          duration: Duration(milliseconds: 300),
+          child: buildSearchBar(context));
+      }
+    });
+  }
+
+  Widget buildSearchBar(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30),
@@ -12,7 +24,7 @@ class Searchbar extends StatelessWidget {
           print('buscaando ....');
           final resultado =
               await showSearch(context: context, delegate: SearchDestination());
-          this.retornoBusqueda(resultado!);
+          this.retornoBusqueda(context, resultado!);
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 13),
@@ -34,10 +46,14 @@ class Searchbar extends StatelessWidget {
     );
   }
 
-  void retornoBusqueda(SearchResults result) {
+  void retornoBusqueda(BuildContext context, SearchResults result) {
     print('cancelo: ${result.cancelo}');
     print('manual: ${result.manual}');
 
     if (result.cancelo) return;
+    if (result.manual) {
+      context.read<BusquedaBloc>().add(OnActivarMarcadorManual());
+      return;
+    }
   }
 }

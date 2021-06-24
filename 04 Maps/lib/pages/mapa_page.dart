@@ -31,10 +31,10 @@ class _MapaPageState extends State<MapaPage> {
           BlocBuilder<MiUbicacionBloc, MiUbicacionState>(
             builder: (context, state) => crearMapa(state),
           ),
-          // Positioned(
-          //   top: 15,
-          //   child: SafeArea(child: Searchbar()),
-          // ),
+          Positioned(
+            top: 15,
+            child: SafeArea(child: Searchbar()),
+          ),
           MarcadorManual(),
         ],
       ),
