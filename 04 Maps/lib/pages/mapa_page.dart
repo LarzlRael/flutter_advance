@@ -59,18 +59,22 @@ class _MapaPageState extends State<MapaPage> {
     //     child: Text(
     //         '${state.ubicacion!.latitude}, ${state.ubicacion!.longitude}'));
     final cameraPosition = CameraPosition(target: state.ubicacion!, zoom: 15);
-    return GoogleMap(
-      initialCameraPosition: cameraPosition,
-      compassEnabled: true,
-      // mapType: MapType.normal,
-      // myLocationButtonEnabled: true,
-      myLocationEnabled: true,
-      zoomControlsEnabled: false,
-      onMapCreated: (GoogleMapController controller) =>
-          mapaBloc.initMapa(controller),
-      polylines: mapaBloc.state.polylines.values.toSet(),
-      onCameraMove: (cameraPosition) {
-        mapaBloc.add(OnMovioMapa(cameraPosition.target));
+    return BlocBuilder<MapaBloc, MapaState>(
+      builder: (context, _) {
+        return GoogleMap(
+          initialCameraPosition: cameraPosition,
+          compassEnabled: true,
+          // mapType: MapType.normal,
+          // myLocationButtonEnabled: true,
+          myLocationEnabled: true,
+          zoomControlsEnabled: false,
+          onMapCreated: (GoogleMapController controller) =>
+              mapaBloc.initMapa(controller),
+          polylines: mapaBloc.state.polylines.values.toSet(),
+          onCameraMove: (cameraPosition) {
+            mapaBloc.add(OnMovioMapa(cameraPosition.target));
+          },
+        );
       },
     );
   }
