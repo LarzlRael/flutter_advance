@@ -74,6 +74,7 @@ class _MapaPageState extends State<MapaPage> {
           onCameraMove: (cameraPosition) {
             mapaBloc.add(OnMovioMapa(cameraPosition.target));
           },
+          markers: mapaBloc.state.markers.values.toSet(),
         );
       },
     );

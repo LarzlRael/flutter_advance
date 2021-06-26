@@ -88,13 +88,16 @@ class _BuildMarcadorManual extends StatelessWidget {
     final inicio = context.read<MiUbicacionBloc>().state.ubicacion;
     final destino = mapaBloc.state.ubicacionCentral;
 
+    //Obtener informacion del destino
+    final reverQueryRespose = await traficService.getCoordenadasInfo(destino!);
+
     final trafficResponse =
         await traficService.getCoordsInicioAndFin(inicio!, destino!);
 
     final geometry = trafficResponse.routes[0].geometry;
     final duration = trafficResponse.routes[0].duration;
     final distancia = trafficResponse.routes[0].distance;
-
+    final nombreDestino = reverQueryRespose.features[0].text;
     //decodificar los puntos geometry
     // final points = Poly.Polyline.Decode(encodedString: geometry, precision: 6);
     PolylinePoints polylinePoints = PolylinePoints();
@@ -105,8 +108,12 @@ class _BuildMarcadorManual extends StatelessWidget {
         .map((point) => LatLng(point.latitude / 10, point.longitude / 10))
         .toList();
     print(rutaCoordenadas);
-    mapaBloc
-        .add(OnCrearRutaInicioDestino(rutaCoordenadas, distancia, duration));
+    mapaBloc.add(OnCrearRutaInicioDestino(
+      rutaCoordenadas,
+      distancia,
+      duration,
+      nombreDestino,
+    ));
 
     Navigator.of(context).pop();
     context.read<BusquedaBloc>().add(OnDesActivarMarcadorManual());
