@@ -92,7 +92,7 @@ class _BuildMarcadorManual extends StatelessWidget {
     final reverQueryRespose = await traficService.getCoordenadasInfo(destino!);
 
     final trafficResponse =
-        await traficService.getCoordsInicioAndFin(inicio!, destino!);
+        await traficService.getCoordsInicioAndFin(inicio!, destino);
 
     final geometry = trafficResponse.routes[0].geometry;
     final duration = trafficResponse.routes[0].duration;
@@ -102,12 +102,15 @@ class _BuildMarcadorManual extends StatelessWidget {
     // final points = Poly.Polyline.Decode(encodedString: geometry, precision: 6);
     PolylinePoints polylinePoints = PolylinePoints();
     final points = polylinePoints.decodePolyline(geometry);
-    print('puntos : $points');
+
+    /* print('puntos : $points'); */
     //Decodificar los puntos del geometry
     final List<LatLng> rutaCoordenadas = points
         .map((point) => LatLng(point.latitude / 10, point.longitude / 10))
         .toList();
+
     print(rutaCoordenadas);
+
     mapaBloc.add(OnCrearRutaInicioDestino(
       rutaCoordenadas,
       distancia,
@@ -119,3 +122,7 @@ class _BuildMarcadorManual extends StatelessWidget {
     context.read<BusquedaBloc>().add(OnDesActivarMarcadorManual());
   }
 }
+
+
+// final iconInicio = await getMarkerInicioIcon(event.duracion.toInt());
+//     final iconDestino = await getNetworkImageMarker();

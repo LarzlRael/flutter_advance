@@ -50,7 +50,10 @@ class _MapaPageState extends State<MapaPage> {
   }
 
   Widget crearMapa(MiUbicacionState state) {
-    if (!state.existeUbicacion!) return Text('Ubicando');
+    if (!state.existeUbicacion!)
+      return Center(
+        child: CircularProgressIndicator(),
+      );
 
     final mapaBloc = BlocProvider.of<MapaBloc>(context);
 
@@ -63,10 +66,10 @@ class _MapaPageState extends State<MapaPage> {
       builder: (context, _) {
         return GoogleMap(
           initialCameraPosition: cameraPosition,
-          compassEnabled: true,
+          compassEnabled: false,
           // mapType: MapType.normal,
           // myLocationButtonEnabled: true,
-          myLocationEnabled: true,
+          myLocationEnabled: false,
           zoomControlsEnabled: false,
           onMapCreated: (GoogleMapController controller) =>
               mapaBloc.initMapa(controller),
