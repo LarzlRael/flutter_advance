@@ -31,3 +31,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+/* keytool -list -v -keystore upload-keystore.jks -alias upload */
+

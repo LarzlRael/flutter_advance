@@ -29,7 +29,7 @@ class SocketService with ChangeNotifier {
         Enviroments.socketUrl,
         IO.OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
-            .enableAutoConnect()// disable auto-connection
+            .enableAutoConnect() // disable auto-connection
             .enableForceNew()
             .setExtraHeaders({
               'foo': 'bar',

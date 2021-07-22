@@ -7,13 +7,13 @@ class ChatMessage extends StatelessWidget {
   final String uid;
   final String? createdAt;
   final AnimationController animationController;
-  const ChatMessage(
-      {Key? key,
-      required this.text,
-      required this.uid,
-      required this.animationController,
-      this.createdAt})
-      : super(key: key);
+
+  const ChatMessage({
+    required this.text,
+    required this.uid,
+    required this.animationController,
+    this.createdAt,
+  });
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);

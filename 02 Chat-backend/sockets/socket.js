@@ -29,11 +29,11 @@ io.on('connection', (client) => {
         await grabarMensaje(payload);
 
         io.to(payload.para).emit('mensaje-personal', payload);
-    })
+    });
 
     client.on('disconnect', () => {
         usuarioDesconectado(uid);
-    });
+    }); 
 
 
 

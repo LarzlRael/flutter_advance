@@ -10,12 +10,13 @@ class LoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: checkLoginState(context),
-          builder: (context, snapshot) {
-            return Center(
-              child: Text('Espere ....'),
-            );
-          }),
+        future: checkLoginState(context),
+        builder: (context, snapshot) {
+          return Center(
+            child: Text('Espere ....'),
+          );
+        },
+      ),
     );
   }
 

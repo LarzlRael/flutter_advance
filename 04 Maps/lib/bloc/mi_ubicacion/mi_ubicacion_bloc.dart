@@ -19,6 +19,7 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
             distanceFilter: 10)
         .listen((Geolocator.Position position) {
       print('posiction actual : $position');
+
       final newLocation = new LatLng(position.latitude, position.longitude);
       add(OnUbicacionCambio(newLocation));
     });
