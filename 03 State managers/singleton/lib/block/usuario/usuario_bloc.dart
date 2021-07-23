@@ -27,7 +27,7 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
         ),
       );
     } else if (event is BorrarUsuario) {
-      yield state.estadoInicial();
+      yield state.copyWith(usuario: null);
     }
   }
 }
